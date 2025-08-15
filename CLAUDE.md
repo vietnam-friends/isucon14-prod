@@ -170,12 +170,18 @@ ssh [アプリサーバー] "cd /home/isucon && sudo git pull origin main"
 ### ファイル命名規則
 ```
 docs/
+├── ISURIDE.md               # アプリケーション仕様書（既存）
+├── manual.md                # 当日マニュアル（既存）
 ├── api-analysis.md          # API分析結果
 ├── database-schema.md       # DB構造理解
 ├── performance-issues.md    # パフォーマンス問題
 ├── troubleshooting.md       # トラブルシューティング履歴
 └── business-logic.md        # ビジネスロジック理解
 ```
+
+### 既存ドキュメント
+- **manual.md**: ISUCON14当日マニュアル - 競技ルール、環境構築、ベンチマーカー仕様
+- **ISURIDE.md**: ISURIDEアプリケーション仕様書 - ビジネスロジック、API仕様、データベース構造
 
 ## 8. チェックリスト
 
