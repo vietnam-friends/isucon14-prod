@@ -48,18 +48,21 @@ model: sonnet
 
 ### ステップ 2: Go pprofプロファイリング実行
 
-#### CPUプロファイル取得
+#### CPUプロファイル取得（適応的）
 ```bash
+# 環境検出結果を使用（ISUCON_APP_PORTは自動検出された値）
+source /home/isucon/isucon_env.sh
+
 # アプリケーションサーバーでpprofを取得
-ssh -i ~/Downloads/isucon14.pem ubuntu@13.230.155.251 << 'EOF'
+ssh -i ~/Downloads/isucon14.pem ubuntu@13.230.155.251 << EOF
     # CPU プロファイル取得（30秒間）
-    curl -o /tmp/cpu.pprof "http://localhost:8080/debug/pprof/profile?seconds=30"
+    curl -o /tmp/cpu.pprof "http://localhost:${ISUCON_APP_PORT:-8080}/debug/pprof/profile?seconds=30"
     
     # メモリプロファイル取得
-    curl -o /tmp/heap.pprof "http://localhost:8080/debug/pprof/heap"
+    curl -o /tmp/heap.pprof "http://localhost:${ISUCON_APP_PORT:-8080}/debug/pprof/heap"
     
     # ゴルーチンプロファイル取得
-    curl -o /tmp/goroutine.pprof "http://localhost:8080/debug/pprof/goroutine"
+    curl -o /tmp/goroutine.pprof "http://localhost:${ISUCON_APP_PORT:-8080}/debug/pprof/goroutine"
 EOF
 
 # プロファイルファイルをローカルにコピー

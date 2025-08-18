@@ -35,17 +35,32 @@ model: sonnet
 
 ### ステップ 1: 環境準備とベンチマーク実行
 
-#### 1.1 リソース監視スクリプトの起動
+#### 1.1 環境の自動検出（初回のみ）
+```bash
+# ISUCON環境の自動検出（アプリ名、ポート、ファイルパスを自動検出）
+bash scripts/detect_environment.sh
+source /tmp/isucon_env_detected.sh
+
+# 適応的ログ設定（検出した環境に合わせて設定）
+bash scripts/setup_logging_adaptive.sh
+```
+
+#### 1.2 リソース監視スクリプトの起動
 ```bash
 # バックグラウンドでリソース監視を開始
 bash scripts/monitor_resources.sh &
 MONITOR_PID=$!
 ```
 
-#### 1.2 ベンチマーク実行
+#### 1.3 ベンチマーク実行（適応的）
 ```bash
-# 専用スクリプトでベンチマーク実行
-bash scripts/remote_slow_query_analysis.sh
+# 環境変数を使用してベンチマーク実行
+# ポート番号やサービス名は自動検出された値を使用
+ssh -i ~/Downloads/isucon14.pem ${BENCH_SERVER} \
+  "cd ~/isucon14/bench && /usr/local/go/bin/go run . run \
+   --target https://xiv.isucon.net:443 \
+   --payment-url http://${APP_SERVER}:${ISUCON_APP_PORT:-8080} \
+   -t 60 --skip-static-sanity-check"
 ```
 
 ### ステップ 2: ボトルネック判定
