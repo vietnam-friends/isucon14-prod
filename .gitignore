@@ -1,0 +1,45 @@
+# ISUCON14 Git Ignore Settings
+
+# 環境設定ファイル（機密情報含む）
+.env
+.env.local
+.env.*.local
+
+# ログファイル
+*.log
+/tmp/
+/logs/
+
+# OS関連
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# エディタ関連
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# 一時ファイル
+*.tmp
+*.temp
+*.backup
+*.bak
+
+# ISUCONベンチマーク関連
+/bench/result/
+/bench/logs/
+/pprof/
+*.pprof
+
+# バックアップファイル
+*.backup
+*~
+\#*\#
+.\#*

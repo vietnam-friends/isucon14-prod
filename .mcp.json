@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "isucon14-github": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-github"],
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "${GITHUB_TOKEN}",
+        "GITHUB_OWNER": "${GITHUB_OWNER:-iineineno03k}",
+        "GITHUB_REPO": "${GITHUB_REPO:-isucon14-prod}"
+      }
+    }
+  }
+}
