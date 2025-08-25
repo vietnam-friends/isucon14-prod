@@ -48,9 +48,8 @@ func handlePostPayments(w http.ResponseWriter, r *http.Request) {
 	arr, ok := data[token]
 	if !ok {
 		arr = []int{}
-		data[token] = arr
 	}
-	arr = append(arr, req.Amount)
+	data[token] = append(arr, req.Amount)
 	dataLock.Unlock()
 
 	slog.Info("決済完了", slog.String("token", token), slog.Int("amount", req.Amount))
