@@ -17,9 +17,13 @@ ssh -i ~/Downloads/isucon14.pem ubuntu@57.180.65.12
 ssh -i ~/Downloads/isucon14.pem ubuntu@13.115.146.218 \
   "cd ~/isucon14/bench && /usr/local/go/bin/go run . run \
    --target https://xiv.isucon.net:443 \
-   --payment-url http://57.180.65.12:12345 \
+   --payment-url http://13.115.146.218:12345 \
    -t 60 --skip-static-sanity-check"
 ```
+
+## 現在の問題
+- **セキュリティグループ**: アプリサーバーにポート8080の追加が必要
+- **hosts設定**: ベンチサーバーに `57.180.65.12 xiv.isucon.net` 追加済み
 
 ## 基本ルール
 

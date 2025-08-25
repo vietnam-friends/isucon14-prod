@@ -4,7 +4,7 @@ SET CHARACTER_SET_CONNECTION = utf8mb4;
 USE isuride;
 
 INSERT INTO settings (name, value)
-VALUES ('payment_gateway_url', 'http://localhost:12345');
+VALUES ('payment_gateway_url', 'http://13.115.146.218:12345');
 
 INSERT INTO chair_models (name, speed)
 VALUES ('リラックスシート NEO', 2),
