@@ -1,0 +1,11 @@
+{
+  "go.toolsManagement.checkForUpdates": "local",
+  "go.useLanguageServer": true,
+  "go.languageServerExperimentalFeatures": {
+    "diagnostics": true,
+    "documentLink": true
+  },
+  "gopls": {
+    "path": "/Users/mynameis/go/bin/gopls"
+  }
+}
