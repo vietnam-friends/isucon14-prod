@@ -1,0 +1,131 @@
+=== スロークエリ分析結果 ===
+分析日時: Mon Aug 25 20:07:40 UTC 2025
+対象ファイル: /var/log/mysql/mysql-slow.log
+ファイルサイズ: 20M
+総クエリ数: 67964
+
+=== 実行時間順上位10件 ===
+Count: 24  Time=2.93s (70s)  Lock=0.00s (0s)  Rows=8.0 (192), isucon[isucon]@localhost
+  SELECT id,
+  owner_id,
+  name,
+  access_token,
+  model,
+  is_active,
+  created_at,
+  updated_at,
+  IFNULL(total_distance, N) AS total_distance,
+  total_distance_updated_at
+  FROM chairs
+  LEFT JOIN (SELECT chair_id,
+  SUM(IFNULL(distance, N)) AS total_distance,
+  MAX(created_at)          AS total_distance_updated_at
+  FROM (SELECT chair_id,
+  created_at,
+  ABS(latitude - LAG(latitude) OVER (PARTITION BY chair_id ORDER BY created_at)) +
+  ABS(longitude - LAG(longitude) OVER (PARTITION BY chair_id ORDER BY created_at)) AS distance
+  FROM chair_locations) tmp
+  GROUP BY chair_id) distance_table ON distance_table.chair_id = chairs.id
+  WHERE owner_id = 'S'
+
+Count: 1758  Time=0.02s (43s)  Lock=0.00s (0s)  Rows=1.0 (1758), isucon[isucon]@localhost
+  SELECT status FROM ride_statuses WHERE ride_id = 'S' ORDER BY created_at DESC LIMIT N
+
+Count: 258  Time=0.16s (40s)  Lock=0.00s (0s)  Rows=0.9 (237), isucon[isucon]@localhost
+  SELECT * FROM chair_locations WHERE chair_id = 'S' ORDER BY created_at DESC LIMIT N
+
+Count: 716  Time=0.03s (22s)  Lock=0.00s (0s)  Rows=0.0 (28), isucon[isucon]@localhost
+  SELECT * FROM ride_statuses WHERE ride_id = 'S' AND chair_sent_at IS NULL ORDER BY created_at ASC LIMIT N
+
+Count: 617  Time=0.03s (19s)  Lock=0.00s (0s)  Rows=0.0 (28), isucon[isucon]@localhost
+  SELECT * FROM ride_statuses WHERE ride_id = 'S' AND app_sent_at IS NULL ORDER BY created_at ASC LIMIT N
+
+Count: 511  Time=0.03s (15s)  Lock=0.00s (0s)  Rows=2.5 (1266), isucon[isucon]@localhost
+  SELECT * FROM ride_statuses WHERE ride_id = 'S' ORDER BY created_at
+
+Count: 4547  Time=0.00s (11s)  Lock=0.00s (0s)  Rows=0.3 (1185), isucon[isucon]@localhost
+  SELECT * FROM rides WHERE chair_id = 'S' ORDER BY updated_at DESC LIMIT N
+
+Count: 4582  Time=0.00s (7s)  Lock=0.00s (0s)  Rows=1.0 (4582), isucon[isucon]@localhost
+  SELECT * FROM chairs WHERE access_token = 'S'
+
+Count: 1874  Time=0.00s (5s)  Lock=0.00s (0s)  Rows=0.0 (0), isucon[isucon]@localhost
+  COMMIT
+
+Count: 38754  Time=0.00s (2s)  Lock=0.00s (0s)  Rows=0.4 (14011), 2users@localhost
+  #
+
+
+=== 実行回数順上位10件 ===
+Count: 38754  Time=0.00s (2s)  Lock=0.00s (0s)  Rows=0.4 (14011), 2users@localhost
+  #
+
+Count: 18492  Time=0.00s (0s)  Lock=0.00s (0s)  Rows=0.0 (0), 0users@0hosts
+  administrator command: Prepare
+
+Count: 18478  Time=0.00s (0s)  Lock=0.00s (0s)  Rows=0.0 (0), 0users@0hosts
+  administrator command: Close stmt
+
+Count: 5245  Time=0.00s (0s)  Lock=0.00s (0s)  Rows=0.0 (0), isucon[isucon]@localhost
+  START TRANSACTION
+
+Count: 4582  Time=0.00s (7s)  Lock=0.00s (0s)  Rows=1.0 (4582), isucon[isucon]@localhost
+  SELECT * FROM chairs WHERE access_token = 'S'
+
+Count: 4547  Time=0.00s (11s)  Lock=0.00s (0s)  Rows=0.3 (1185), isucon[isucon]@localhost
+  SELECT * FROM rides WHERE chair_id = 'S' ORDER BY updated_at DESC LIMIT N
+
+Count: 3358  Time=0.00s (0s)  Lock=0.00s (0s)  Rows=0.0 (0), isucon[isucon]@localhost
+  ROLLBACK
+
+Count: 1874  Time=0.00s (5s)  Lock=0.00s (0s)  Rows=0.0 (0), isucon[isucon]@localhost
+  COMMIT
+
+Count: 1780  Time=0.00s (0s)  Lock=0.00s (0s)  Rows=0.0 (0), 0users@0hosts
+  administrator command: Quit
+
+Count: 1758  Time=0.02s (43s)  Lock=0.00s (0s)  Rows=1.0 (1758), isucon[isucon]@localhost
+  SELECT status FROM ride_statuses WHERE ride_id = 'S' ORDER BY created_at DESC LIMIT N
+
+
+=== 平均実行時間順上位10件 ===
+Count: 6  Time=0.00s (0s)  Lock=0.00s (0s)  Rows=0.0 (0), isucon[isucon]@localhost
+  INSERT INTO rides (id, user_id, pickup_latitude, pickup_longitude, destination_latitude, destination_longitude)
+  VALUES ('S', 'S', N, N, N, N)
+
+Count: 1  Time=0.00s (0s)  Lock=0.00s (0s)  Rows=0.0 (0), isucon[isucon]@localhost
+  LOCK TABLES `chair_locations` WRITE
+
+Count: 20  Time=0.01s (0s)  Lock=0.00s (0s)  Rows=0.0 (0), isucon[isucon]@localhost
+  INSERT INTO chairs (id, owner_id, name, model, is_active, access_token) VALUES ('S', 'S', 'S', 'S', N, 'S')
+
+Count: 118  Time=0.00s (0s)  Lock=0.00s (0s)  Rows=0.1 (10), isucon[isucon]@localhost
+  SELECT * FROM rides WHERE chair_id IS NULL ORDER BY created_at LIMIT N
+
+Count: 10  Time=0.00s (0s)  Lock=0.00s (0s)  Rows=0.0 (0), isucon[isucon]@localhost
+  INSERT INTO coupons (user_id, code, discount) VALUES ('S', 'S', N)
+
+Count: 21  Time=0.00s (0s)  Lock=0.00s (0s)  Rows=1.0 (21), isucon[isucon]@localhost
+  SELECT * FROM chairs INNER JOIN (SELECT id FROM chairs WHERE is_active = TRUE ORDER BY RAND() LIMIT N) AS tmp ON chairs.id = tmp.id LIMIT N
+
+Count: 1  Time=0.00s (0s)  Lock=0.00s (0s)  Rows=0.0 (0), isucon[isucon]@localhost
+  /*!N SET TIME_ZONE=@OLD_TIME_ZONE */
+
+Count: 1  Time=0.00s (0s)  Lock=0.00s (0s)  Rows=0.0 (0), isucon[isucon]@localhost
+  /*!N SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */
+
+Count: 1  Time=0.00s (0s)  Lock=0.00s (0s)  Rows=0.0 (0), isucon[isucon]@localhost
+  LOCK TABLES `payment_tokens` WRITE
+
+Count: 709  Time=0.00s (0s)  Lock=0.00s (0s)  Rows=1.0 (709), isucon[isucon]@localhost
+  SELECT * FROM users WHERE id = 'S' FOR SHARE
+
+
+=== 詳細統計情報 ===
+# 実行時間別分布
+0.1秒未満: 67705 件
+0.1-0.5秒: 242 件
+0.5-1.0秒: 0 件
+1.0-5.0秒: 23 件
+5.0秒以上: 0 件
+総計: 67970 件
